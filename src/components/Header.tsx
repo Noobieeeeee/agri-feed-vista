@@ -1,6 +1,6 @@
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Book, Newspaper } from "lucide-react";
+import { Book, GraduationCap, Newspaper } from "lucide-react";
 
 interface HeaderProps {
   activeTab: string;
@@ -24,10 +24,14 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
         </div>
         
         <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
-          <TabsList className="w-full max-w-md mx-auto grid grid-cols-2">
+          <TabsList className="w-full max-w-md mx-auto grid grid-cols-3">
             <TabsTrigger value="news" className="flex gap-2 items-center">
               <Newspaper size={16} />
               Philippine News
+            </TabsTrigger>
+            <TabsTrigger value="board" className="flex gap-2 items-center">
+              <GraduationCap size={16} />
+              Board Exam Results
             </TabsTrigger>
             <TabsTrigger value="research" className="flex gap-2 items-center">
               <Book size={16} />

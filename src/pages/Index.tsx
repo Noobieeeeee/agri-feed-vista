@@ -3,11 +3,11 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import NewsFeed from "@/components/NewsFeed";
 import ResearchFeed from "@/components/ResearchFeed";
+import BoardExamFeed from "@/components/BoardExamFeed";
 import Footer from "@/components/Footer";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Book, ExternalLink } from "lucide-react";
 import InfoDialog from "@/components/InfoDialog";
 import { agriEngineeringInfo } from "@/services/agriEngineeringInfo";
@@ -20,9 +20,26 @@ const Index = () => {
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
+    
+    let toastMessage = "";
+    
+    switch (value) {
+      case "news":
+        toastMessage = "Philippine News Feed";
+        break;
+      case "board":
+        toastMessage = "Board Exam Results";
+        break;
+      case "research":
+        toastMessage = "Research Feed";
+        break;
+    }
+    
     toast({
-      title: value === "news" ? "Philippine News Feed" : "Research Feed",
-      description: `Viewing latest ${value === "news" ? "Philippine agricultural news" : "agricultural engineering research"}`,
+      title: toastMessage,
+      description: `Viewing latest ${value === "news" ? "Philippine agricultural news" : 
+                    value === "board" ? "agricultural engineering board exam results" : 
+                    "agricultural engineering research"}`,
       duration: 1500,
     });
   };
@@ -60,6 +77,9 @@ const Index = () => {
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
           <TabsContent value="news" className="mt-0">
             <NewsFeed />
+          </TabsContent>
+          <TabsContent value="board" className="mt-0">
+            <BoardExamFeed />
           </TabsContent>
           <TabsContent value="research" className="mt-0">
             <ResearchFeed />

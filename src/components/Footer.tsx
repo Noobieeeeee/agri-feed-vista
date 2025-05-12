@@ -8,10 +8,10 @@ const Footer = () => {
         <Separator className="mb-6" />
         <div className="text-center text-gray-500 text-sm">
           <p className="mb-2">
-            AgriSys Feed &copy; {new Date().getFullYear()} - Agricultural & Biosystems Engineering News and Research
+            AgriSys Feed &copy; {new Date().getFullYear()} - Philippine Agricultural & Biosystems Engineering News and Research
           </p>
           <p className="text-xs">
-            Powered by Google News RSS, MDPI Agriculture Journal, and AllOrigins CORS proxy
+            Powered by Google News RSS, ScienceDirect, and AllOrigins CORS proxy
           </p>
         </div>
       </div>

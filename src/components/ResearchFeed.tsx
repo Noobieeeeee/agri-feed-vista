@@ -41,7 +41,7 @@ const ResearchFeed = () => {
       <div className="text-center py-10">
         <p className="text-red-500 mb-4">{error}</p>
         <p className="text-sm text-gray-600">
-          This may be due to CORS restrictions. The app uses a free CORS proxy which may have request limits.
+          We're having trouble accessing our research sources. Please try again soon.
         </p>
       </div>
     );
@@ -49,7 +49,7 @@ const ResearchFeed = () => {
 
   return (
     <div className="container max-w-6xl mx-auto px-4">
-      <h2 className="text-xl font-bold mb-6 text-secondary">Latest Agricultural Research</h2>
+      <h2 className="text-xl font-bold mb-6 text-secondary">Latest Agricultural Engineering Research</h2>
       
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -65,7 +65,7 @@ const ResearchFeed = () => {
         </div>
       ) : articles.length === 0 ? (
         <div className="text-center py-10">
-          <p className="text-gray-500">No research articles found. Please check back later.</p>
+          <p className="text-gray-500">No research articles found at the moment. Please check back later.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -19,7 +19,7 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
             </h1>
           </div>
           <p className="text-gray-600 text-sm text-center md:text-right">
-            Agricultural & Biosystems Engineering News and Research
+            Philippine Agricultural & Biosystems Engineering News and Research
           </p>
         </div>
         
@@ -27,7 +27,7 @@ const Header = ({ activeTab, onTabChange }: HeaderProps) => {
           <TabsList className="w-full max-w-md mx-auto grid grid-cols-2">
             <TabsTrigger value="news" className="flex gap-2 items-center">
               <Newspaper size={16} />
-              News
+              Philippine News
             </TabsTrigger>
             <TabsTrigger value="research" className="flex gap-2 items-center">
               <Book size={16} />

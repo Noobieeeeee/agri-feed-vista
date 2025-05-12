@@ -21,10 +21,21 @@ const ArticleCard = ({
   // Format date if available
   const formattedDate = pubDate ? new Date(pubDate).toLocaleDateString() : "";
   
-  // Truncate description if too long
-  const truncatedDescription = description.length > 200
-    ? `${description.substring(0, 200)}...`
-    : description;
+  // Create a better summary - 2-3 sentences at most
+  const getSummary = (text: string): string => {
+    // Remove any HTML tags first
+    const cleanText = text.replace(/<\/?[^>]+(>|$)/g, "");
+    
+    // Split by sentences
+    const sentences = cleanText.split(/[.!?]+/).filter(s => s.trim().length > 0);
+    
+    // Get first 2-3 sentences
+    const summary = sentences.slice(0, Math.min(2, sentences.length)).join(". ");
+    
+    return summary.length > 0 ? `${summary}.` : "No description available.";
+  };
+
+  const summaryText = getSummary(description);
 
   return (
     <Card className="h-full flex flex-col hover:shadow-md transition-shadow duration-200">
@@ -36,7 +47,7 @@ const ArticleCard = ({
         </div>
       </CardHeader>
       <CardContent className="flex-grow">
-        <p className="text-sm text-gray-600 mb-2">{truncatedDescription}</p>
+        <p className="text-sm text-gray-600 mb-4">{summaryText}</p>
       </CardContent>
       <CardFooter className="flex flex-col items-start pt-2 border-t">
         <div className="flex items-center justify-between w-full mb-2">

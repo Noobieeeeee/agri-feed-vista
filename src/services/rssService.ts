@@ -11,12 +11,12 @@ interface Article {
 // Use AllOrigins as a CORS proxy
 const corsProxy = "https://api.allorigins.win/raw?url=";
 
-// Google News RSS URL for agricultural engineering
+// Google News RSS URL for Philippine agricultural engineering
 const googleNewsUrl = 
-  "https://news.google.com/rss/search?q=agricultural+engineering";
+  "https://news.google.com/rss/search?q=agricultural+engineering+Philippines";
 
-// MDPI Agriculture Journal RSS feed
-const mdpiAgricultureUrl = "https://www.mdpi.com/rss/journal/agriculture";
+// Fallback research feed since MDPI is failing
+const scienceDirectUrl = "https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Frss.sciencedirect.com%2Fpublication%2Fscience%2F03783774";
 
 export const fetchNews = async (): Promise<Article[]> => {
   try {
@@ -39,7 +39,7 @@ export const fetchNews = async (): Promise<Article[]> => {
         id: `news-${index}`,
         title: sourceParts.join(" - "),
         link,
-        description,
+        description: cleanHtml(description),
         source,
         pubDate,
       };
@@ -52,26 +52,22 @@ export const fetchNews = async (): Promise<Article[]> => {
 
 export const fetchResearch = async (): Promise<Article[]> => {
   try {
-    const response = await fetch(`${corsProxy}${encodeURIComponent(mdpiAgricultureUrl)}`);
-    const data = await response.text();
+    // Try the ScienceDirect feed as MDPI is returning Access Denied
+    const response = await fetch(scienceDirectUrl);
+    const data = await response.json();
     
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(data, "text/xml");
-    const items = xmlDoc.querySelectorAll("item");
+    if (data.status !== "ok" || !data.items) {
+      return [];
+    }
     
-    return Array.from(items).map((item, index) => {
-      const title = item.querySelector("title")?.textContent || "No title";
-      const link = item.querySelector("link")?.textContent || "#";
-      const description = item.querySelector("description")?.textContent || "No description";
-      const pubDate = item.querySelector("pubDate")?.textContent || "";
-      
+    return data.items.map((item: any, index: number) => {
       return {
         id: `research-${index}`,
-        title,
-        link,
-        description: cleanHtml(description),
-        source: "MDPI Agriculture Journal",
-        pubDate,
+        title: item.title || "No title",
+        link: item.link || "#",
+        description: cleanHtml(item.description || "No description"),
+        source: "ScienceDirect - Agricultural Engineering",
+        pubDate: item.pubDate || "",
       };
     });
   } catch (error) {

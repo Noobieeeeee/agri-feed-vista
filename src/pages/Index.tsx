@@ -14,8 +14,8 @@ const Index = () => {
   const handleTabChange = (value: string) => {
     setActiveTab(value);
     toast({
-      title: value === "news" ? "News Feed" : "Research Feed",
-      description: `Viewing latest ${value === "news" ? "agricultural news" : "research articles"}`,
+      title: value === "news" ? "Philippine News Feed" : "Research Feed",
+      description: `Viewing latest ${value === "news" ? "Philippine agricultural news" : "agricultural engineering research"}`,
       duration: 1500,
     });
   };

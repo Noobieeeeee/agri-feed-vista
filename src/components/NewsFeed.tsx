@@ -49,7 +49,7 @@ const NewsFeed = () => {
 
   return (
     <div className="container max-w-6xl mx-auto px-4">
-      <h2 className="text-xl font-bold mb-6 text-secondary">Latest Agricultural News</h2>
+      <h2 className="text-xl font-bold mb-6 text-secondary">Latest Philippine Agricultural News</h2>
       
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

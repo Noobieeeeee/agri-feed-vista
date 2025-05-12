@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Header from "@/components/Header";
 import NewsFeed from "@/components/NewsFeed";
@@ -11,6 +10,13 @@ import { Button } from "@/components/ui/button";
 import { Book, ExternalLink } from "lucide-react";
 import InfoDialog from "@/components/InfoDialog";
 import { agriEngineeringInfo } from "@/services/agriEngineeringInfo";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState<string>("news");

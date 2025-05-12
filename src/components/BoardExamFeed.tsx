@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import ArticleCard from "./ArticleCard";
 import { fetchBoardExamResults } from "@/services/rssService";
@@ -29,8 +28,23 @@ const BoardExamFeed = () => {
       try {
         setLoading(true);
         const examResults = await fetchBoardExamResults();
-        setArticles(examResults);
-        setTotalItems(examResults.length);
+        
+        // Filter articles to only include Agricultural and Biosystems Engineering related content
+        const filteredResults = examResults.filter(article => {
+          const searchText = (article.title + " " + article.description).toLowerCase();
+          return searchText.includes("agricultural") || 
+                 searchText.includes("biosystems engineer");
+        });
+
+        // Sort articles by date in descending order (latest first)
+        const sortedResults = filteredResults.sort((a, b) => {
+          const dateA = new Date(a.pubDate).getTime();
+          const dateB = new Date(b.pubDate).getTime();
+          return dateB - dateA;
+        });
+
+        setArticles(sortedResults);
+        setTotalItems(sortedResults.length);
         setError(null);
       } catch (err) {
         console.error("Failed to load board exam results:", err);

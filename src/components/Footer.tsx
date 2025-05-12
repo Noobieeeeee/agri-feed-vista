@@ -10,6 +10,9 @@ const Footer = () => {
           <p className="mb-2">
             AgriSys Feed &copy; {new Date().getFullYear()} - Philippine Agricultural & Biosystems Engineering News and Research
           </p>
+          <p className="mb-1 text-xs">
+            Featuring information about RA 3927, RA 8559, RA 10915, PSAE, and AMTEC
+          </p>
           <p className="text-xs">
             Powered by Google News RSS, ScienceDirect, and AllOrigins CORS proxy
           </p>

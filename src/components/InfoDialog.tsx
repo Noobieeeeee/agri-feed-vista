@@ -26,7 +26,7 @@ const InfoDialog = ({ info, isOpen, onClose }: InfoDialogProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-lg font-bold text-secondary">
             {info.title}
@@ -37,7 +37,7 @@ const InfoDialog = ({ info, isOpen, onClose }: InfoDialogProps) => {
         </DialogHeader>
 
         <div className="py-4">
-          <div className="text-sm text-gray-700" dangerouslySetInnerHTML={{ __html: info.content }} />
+          <div className="text-sm text-gray-700 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: info.content }} />
           
           {info.relatedLinks && info.relatedLinks.length > 0 && (
             <>

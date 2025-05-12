@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import ArticleCard from "./ArticleCard";
 import { fetchNews } from "@/services/rssService";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext } from "@/components/ui/pagination";
 
 interface Article {
   id: string;
@@ -13,10 +15,14 @@ interface Article {
   pubDate: string;
 }
 
+const ITEMS_PER_PAGE = 6; // Number of articles to show per page
+
 const NewsFeed = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalItems, setTotalItems] = useState<number>(0);
 
   useEffect(() => {
     const loadNews = async () => {
@@ -24,6 +30,7 @@ const NewsFeed = () => {
         setLoading(true);
         const newsArticles = await fetchNews();
         setArticles(newsArticles);
+        setTotalItems(newsArticles.length);
         setError(null);
       } catch (err) {
         console.error("Failed to load news:", err);
@@ -35,6 +42,21 @@ const NewsFeed = () => {
 
     loadNews();
   }, []);
+
+  // Calculate total pages
+  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+  
+  // Get current articles
+  const currentArticles = articles.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  // Handle page change
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   if (error) {
     return (
@@ -68,18 +90,46 @@ const NewsFeed = () => {
           <p className="text-gray-500">No articles found. Please check back later.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {articles.map((article) => (
-            <ArticleCard
-              key={article.id}
-              title={article.title}
-              description={article.description}
-              source={article.source}
-              link={article.link}
-              pubDate={article.pubDate}
-            />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {currentArticles.map((article) => (
+              <ArticleCard
+                key={article.id}
+                title={article.title}
+                description={article.description}
+                source={article.source}
+                link={article.link}
+                pubDate={article.pubDate}
+              />
+            ))}
+          </div>
+          
+          {totalPages > 1 && (
+            <div className="mt-8 flex justify-center">
+              <Pagination>
+                <PaginationContent>
+                  {Array.from({ length: totalPages }).map((_, i) => (
+                    <PaginationItem key={i}>
+                      <PaginationLink
+                        onClick={() => handlePageChange(i + 1)}
+                        isActive={currentPage === i + 1}
+                      >
+                        {i + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
+                  {currentPage < totalPages && (
+                    <PaginationItem>
+                      <PaginationNext 
+                        onClick={() => handlePageChange(currentPage + 1)}
+                      />
+                    </PaginationItem>
+                  )}
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

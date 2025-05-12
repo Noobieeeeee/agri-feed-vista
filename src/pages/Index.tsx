@@ -8,11 +8,14 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Book } from "lucide-react";
+import { Book, ExternalLink } from "lucide-react";
+import InfoDialog from "@/components/InfoDialog";
+import { agriEngineeringInfo } from "@/services/agriEngineeringInfo";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState<string>("news");
   const [showIntro, setShowIntro] = useState<boolean>(false);
+  const [selectedInfoId, setSelectedInfoId] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleTabChange = (value: string) => {
@@ -23,6 +26,14 @@ const Index = () => {
       duration: 1500,
     });
   };
+
+  const handleLearnMore = (id: string) => {
+    setSelectedInfoId(id);
+  };
+
+  const selectedInfo = selectedInfoId 
+    ? agriEngineeringInfo.find(info => info.id === selectedInfoId) || null
+    : null;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -59,7 +70,7 @@ const Index = () => {
       <Footer />
 
       <Dialog open={showIntro} onOpenChange={setShowIntro}>
-        <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
+        <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-secondary">
               About Agricultural & Biosystems Engineering in the Philippines
@@ -74,22 +85,110 @@ const Index = () => {
               Agricultural and Biosystems Engineering in the Philippines is a regulated profession that applies engineering principles to address challenges in agriculture, food production, and environmental management.
             </p>
             
-            <h3 className="font-medium text-primary mt-4">Key Legislation:</h3>
-            <ul className="list-disc pl-5 space-y-1 mb-3">
-              <li className="text-sm">Republic Act No. 3927 (1964) - The original Philippine Agricultural Engineering Law</li>
-              <li className="text-sm">Republic Act No. 8559 (1998) - The New Philippine Agricultural Engineering Act</li>
-              <li className="text-sm">Republic Act No. 10915 (2016) - The Philippine Agricultural and Biosystems Engineering Act</li>
-            </ul>
+            <div className="space-y-6">
+              <section>
+                <h3 className="font-medium text-primary mt-4 text-lg">Key Legislation:</h3>
+                <div className="mt-2 space-y-3">
+                  <div className="border rounded-md p-4 bg-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <h4 className="font-semibold">Republic Act No. 3927 (1964)</h4>
+                      <p className="text-sm text-gray-600">The original Philippine Agricultural Engineering Law</p>
+                    </div>
+                    <Button 
+                      variant="outline"
+                      size="sm"
+                      className="self-start sm:self-center whitespace-nowrap border-primary text-primary hover:bg-primary hover:text-white"
+                      onClick={() => handleLearnMore("ra-3927")}
+                    >
+                      Learn More
+                    </Button>
+                  </div>
+                  
+                  <div className="border rounded-md p-4 bg-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <h4 className="font-semibold">Republic Act No. 8559 (1998)</h4>
+                      <p className="text-sm text-gray-600">The New Philippine Agricultural Engineering Act</p>
+                    </div>
+                    <Button 
+                      variant="outline"
+                      size="sm"
+                      className="self-start sm:self-center whitespace-nowrap border-primary text-primary hover:bg-primary hover:text-white"
+                      onClick={() => handleLearnMore("ra-8559")}
+                    >
+                      Learn More
+                    </Button>
+                  </div>
+                  
+                  <div className="border rounded-md p-4 bg-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <h4 className="font-semibold">Republic Act No. 10915 (2016)</h4>
+                      <p className="text-sm text-gray-600">The Philippine Agricultural and Biosystems Engineering Act</p>
+                    </div>
+                    <Button 
+                      variant="outline"
+                      size="sm"
+                      className="self-start sm:self-center whitespace-nowrap border-primary text-primary hover:bg-primary hover:text-white"
+                      onClick={() => handleLearnMore("ra-10915")}
+                    >
+                      Learn More
+                    </Button>
+                  </div>
+                </div>
+              </section>
+              
+              <section>
+                <h3 className="font-medium text-primary mt-4 text-lg">Key Institutions:</h3>
+                <div className="mt-2 space-y-3">
+                  <div className="border rounded-md p-4 bg-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <h4 className="font-semibold">Philippine Society of Agricultural Engineers (PSAE)</h4>
+                      <p className="text-sm text-gray-600">Professional organization for agricultural engineers</p>
+                    </div>
+                    <Button 
+                      variant="outline"
+                      size="sm"
+                      className="self-start sm:self-center whitespace-nowrap border-primary text-primary hover:bg-primary hover:text-white"
+                      onClick={() => handleLearnMore("psae")}
+                    >
+                      Learn More
+                    </Button>
+                  </div>
+                  
+                  <div className="border rounded-md p-4 bg-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <h4 className="font-semibold">Agricultural Machinery Testing and Evaluation Center (AMTEC)</h4>
+                      <p className="text-sm text-gray-600">Testing facility for agricultural machinery at UPLB</p>
+                    </div>
+                    <Button 
+                      variant="outline"
+                      size="sm"
+                      className="self-start sm:self-center whitespace-nowrap border-primary text-primary hover:bg-primary hover:text-white"
+                      onClick={() => handleLearnMore("amtec")}
+                    >
+                      Learn More
+                    </Button>
+                  </div>
+                  
+                  <div className="border rounded-md p-4 bg-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <h4 className="font-semibold">Agricultural Engineering Board - PRC</h4>
+                      <p className="text-sm text-gray-600">Regulatory body for agricultural engineering practice</p>
+                    </div>
+                    <Button 
+                      variant="outline"
+                      size="sm"
+                      className="self-start sm:self-center whitespace-nowrap border-primary text-primary hover:bg-primary hover:text-white"
+                      onClick={() => handleLearnMore("engineering-board")}
+                    >
+                      Learn More
+                    </Button>
+                  </div>
+                </div>
+              </section>
+            </div>
             
-            <h3 className="font-medium text-primary mt-4">Key Institutions:</h3>
-            <ul className="list-disc pl-5 space-y-1 mb-3">
-              <li className="text-sm">Philippine Society of Agricultural Engineers (PSAE) - Professional organization for agricultural engineers</li>
-              <li className="text-sm">Agricultural Machinery Testing and Evaluation Center (AMTEC) - Testing facility for agricultural machinery</li>
-              <li className="text-sm">Professional Regulation Commission (PRC) - Regulatory body for licensed professional engineers</li>
-            </ul>
-            
-            <p className="text-sm mt-4">
-              Use the "Learn More" button on any article card to access detailed information about laws, organizations, and programs related to Agricultural and Biosystems Engineering in the Philippines.
+            <p className="text-sm mt-6 text-gray-600">
+              Agricultural and Biosystems Engineering in the Philippines continues to evolve, addressing challenges in food security, mechanization, and environmental sustainability through innovative engineering solutions.
             </p>
           </div>
           
@@ -98,6 +197,12 @@ const Index = () => {
           </div>
         </DialogContent>
       </Dialog>
+      
+      <InfoDialog
+        info={selectedInfo}
+        isOpen={!!selectedInfo}
+        onClose={() => setSelectedInfoId(null)}
+      />
     </div>
   );
 };
